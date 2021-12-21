@@ -215,7 +215,6 @@ function addCharacterToResult(character, value) {
 function getCharResult(char) {
     //Checks current characters data and restrictions
     let charResult = null;
-
     Object.values(result).forEach((obj) => {
         if (char === obj.character) {
             charResult = obj;
