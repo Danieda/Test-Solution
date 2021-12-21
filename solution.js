@@ -74,13 +74,11 @@ const result = {
 function solution(input = data) {
     const { known } = input;
     const unknownWord = input.unknown;
-
     for (const [word, wordValue] of Object.entries(known)) {
         if (word.length === 1) {
             //adds 4 to value E, With restrictions to adjacent numbers
             addCharacterToResult(word, wordValue);
         }
-
         else if ([...new Set(unknownChars(word))].length === 1) {
             //if length of unknown characters is 1 add to unknown chars array.
             const unknownChar = unknownChars(word)[0];
@@ -176,7 +174,6 @@ function fitCharactersWithMath(word, wordValue) {
 
 
 function subtractKnown(word, value) {
-
     let unknownsValue = parseInt(value);
     Array.from(word).forEach((char) => {
         //subtracts current index value with the datas known number
