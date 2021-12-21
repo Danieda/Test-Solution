@@ -97,6 +97,8 @@ function solution(input = data) {
 }
 
 function calculateUnknownValue(unknownWord) {
+    //for each char in figged, grab data values from f,i,g,g,e,d stored in result.
+    //checks if resultObj is not null, Adds the value from result to value.
     let value = 0;
     Array.from(unknownWord).forEach((char) => {
         const resultObj = getCharResult(char);
@@ -110,7 +112,8 @@ function calculateUnknownValue(unknownWord) {
 }
 
 function fitFinalCharacters() {
-    //checks remainder empty dataslots and checks for restrictions.
+    //grabs remaining chars in list
+    //checks remainder empty dataslots in result and checks for restrictions.
     const finalUnknownChars = [];
     Object.keys(adjacentCharacters).forEach((char) => {
         if (!getCharResult(char)) {
@@ -151,17 +154,20 @@ function tryFitAvailable(characters, value) {
 }
 
 function fitCharactersWithMath(word, wordValue) {
+    //checks if array contains two unknown words
+    //checks if 1 || 2 characters.
     const unknownCharacters = unknownChars(word);
     const uniqueUnknownChars = [...new Set(unknownCharacters)];
-    //console.log(uniqueUnknownChars + " fit chars with math")
     if (uniqueUnknownChars.length === 2) {
         const firstChar = uniqueUnknownChars[0];
         const secondChar = uniqueUnknownChars[1];
         const hasOneChar = countChars(firstChar, unknownCharacters) === 1 ? firstChar : secondChar;
-        const hasTwoChar = countChars(firstChar, unknownCharacters) === 2 ? firstChar : secondChar;
+        const hasTwoChar = countChars(secondChar, unknownCharacters) === 2 ? secondChar : firstChar;
+        //loops through result data keys, checks if current index is adjacent to restricted letters.
+        //Sets char with the most count with the highest value, Sets lowest value to second char.
         for (const [num, obj] of Object.entries(result)) {
             if ((wordValue - num) % 2 === 0 && (wordValue - num) / 2 <= 9) {
-                if (!obj.dissallowed.includes(hasTwoChar)) {
+                if (!obj.dissallowed.includes(hasTwoChar) && !obj.dissallowed.includes(hasOneChar)) {
                     addCharacterToResult(hasOneChar, parseInt(num));
                     addCharacterToResult(hasTwoChar, (wordValue - num) / 2);
                     return true;
